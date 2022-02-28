@@ -24,17 +24,20 @@ public class Product {
     @ManyToOne(optional = false)
     private Category category;
 
+    @ManyToOne(optional = false)
+    private Brand brand;
 
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, BigDecimal price, Category category) {
+    public Product(Long id, String name, String description, BigDecimal price, Category category, Brand brand) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
+        this.brand = brand;
     }
 
     public Long getId() {
@@ -90,4 +93,11 @@ public class Product {
         return Objects.hash(id);
     }
 
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
 }
