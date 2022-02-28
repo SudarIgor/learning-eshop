@@ -1,14 +1,12 @@
 package ru.geekbrains.persist.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "categories")
-public class Category implements Serializable {
-
+@Table(name = "brands")
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -18,7 +16,7 @@ public class Category implements Serializable {
     private String name;
 
     @OneToMany(
-            mappedBy = "category",
+            mappedBy = "brand",
             orphanRemoval = true,
             cascade = CascadeType.ALL)
     private List<Product> products;
@@ -26,23 +24,18 @@ public class Category implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "brands_categories",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "brands_id")
+            joinColumns = @JoinColumn(name = "brands_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Brand> brands;
+    private List<Category> categories;
 
-
-    public Category() {
-
-    }
-
-    public Category(Long id, String name) {
+    public Brand(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Category(String name) {
-        this.name = name;
+    public Brand() {
+
     }
 
     public Long getId() {
@@ -69,21 +62,20 @@ public class Category implements Serializable {
         this.products = products;
     }
 
-    public List<Brand> getBrands() {
-        return brands;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setBrands(List<Brand> brands) {
-        this.brands = brands;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return id.equals(category.id) &&
-                name.equals(category.name);
+        Brand brands = (Brand) o;
+        return Objects.equals(id, brands.id) && Objects.equals(name, brands.name) && Objects.equals(products, brands.products);
     }
 
     @Override
