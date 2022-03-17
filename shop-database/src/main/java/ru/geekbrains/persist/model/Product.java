@@ -2,6 +2,8 @@ package ru.geekbrains.persist.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +28,11 @@ public class Product {
 
     @ManyToOne(optional = false)
     private Brand brand;
+
+    @OneToMany(mappedBy = "product",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
+    private List<Picture> pictures = new ArrayList<>();
 
 
     public Product() {
@@ -99,5 +106,13 @@ public class Product {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
     }
 }
